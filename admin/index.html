@@ -67,6 +67,30 @@
     $('.level02 li').click(function() {
       $(this).addClass('active').siblings().removeClass('active');
     })
+
+    //刷新发请求，把用户的名字和头像渲染；但是要携带token，来验证用户是否成功登录了
+    //把登录时存的 token 取下来 ，携带上，否则报403
+    //token没取到或没验证成功，403 回到登录页
+    $.ajax({
+      type: 'get',
+      url: 'http://localhost:8080/api/v1/admin/user/info',
+      headers: {
+        Authorization: localStorage.getItem('token')
+      },
+      //成功渲染,把获取到的用户头像和姓名渲染
+      success: function(res) {
+        console.log(res);
+        $('.user_info>img').prop('src', res.data.userPic);
+        $('.user_info>span').text('欢迎  ' + res.data.nickname);
+        $('.user_center_link>img').attr('src', res.data.userPic);
+      },
+      //失败回到登录页
+      error: function(res) {
+        alert('请登录哦！小可爱！')
+        location.href = './login.html';
+
+      }
+    })
   </script>
 </body>
 

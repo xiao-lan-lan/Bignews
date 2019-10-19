@@ -60,12 +60,14 @@
           password: password
         },
         success: function(res) {
+          console.log(res);
           if (res.code == 400) {
             alert(res.msg);
           } else if (res.code == 200) {
-            location.href = './index.html';
+            //把登录成功的标识token存到浏览器缓存
+            localStorage.setItem('token', res.token);
+            location.href = 'index.html';
           }
-
         }
       })
     })
