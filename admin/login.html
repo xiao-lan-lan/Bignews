@@ -38,6 +38,29 @@
     </div>
   </div>
 
+  <!-- 模态框 -->
+  <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="gridSystemModalLabel">提示信息</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">.col-md-4</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
   <script>
     //点击登录按钮，用户名密码非空时，跳转后台主页
     $('.input_sub').click(function(e) {
@@ -48,7 +71,11 @@
       var password = $('.input_pass').val().trim();
       //验证
       if (username === '' || password == '') {
-        alert('写点东西呗！小可爱！！');
+        // alert('写点东西呗！小可爱！！');
+        $('.modal-body .col-md-4').text('写点东西呗！小可爱！！');
+        $('#myModal').modal({
+          keyboard: true
+        })
         return;
       }
       //非空，发ajax请求
@@ -62,11 +89,22 @@
         success: function(res) {
           console.log(res);
           if (res.code == 400) {
-            alert(res.msg);
+            // alert(res.msg);
+            $('#myModal').modal({
+              keyboard: true
+            })
+            $('.modal-body .col-md-4').text(res.msg);
           } else if (res.code == 200) {
             //把登录成功的标识token存到浏览器缓存
             localStorage.setItem('token', res.token);
-            location.href = 'index.html';
+            $('#myModal').modal({
+              keyboard: true
+            })
+            $('#myModal').on('hidden.bs.modal', function(e) {
+              location.href = 'index.html';
+            })
+            $('.modal-body .col-md-4').text(res.msg);
+
           }
         }
       })
