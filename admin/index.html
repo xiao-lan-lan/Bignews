@@ -80,9 +80,6 @@
 
   <script>
     //点击文章管理下拉
-    console.log($('.level01:eq(1)'));
-    console.log($('.level01').eq(1));
-
     $('.level01:eq(1)').click(function() {
         $('.level02').slideToggle();
       })
@@ -93,6 +90,7 @@
     $('.level02 li').click(function() {
       $(this).addClass('active').siblings().removeClass('active');
     })
+
 
     //刷新发请求，把用户的名字和头像渲染；但是要携带token，来验证用户是否成功登录了
     //把登录时存的 token 取下来 ，携带上，否则报403
@@ -121,8 +119,14 @@
           location.href = './login.html';
         })
         $('.modal-body .col-md-4').text('请登录哦！小可爱！');
-
       }
+    })
+
+
+    //退出登录,要删除本地token
+    $('.logout').click(function() {
+      location.href = './login.html';
+      localStorage.setItem('token', '');
     })
   </script>
 </body>
