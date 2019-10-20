@@ -84,14 +84,14 @@
         <td>{{$value.slug}}</td>
         <td class="text-center">
           <a href="javascript:void(0);" data-toggle="modal" class=" btn btn-info btn-xs">编辑</a>
-          <a href="javascript:void(0);" class="btn btn-danger btn-xs">删除</a>
+          <a href="javascript:void(0);" class="btn btn-danger btn-xs btn-del" data-id="{{$value.id}}">删除</a>
         </td>
       </tr>
       {{/each}}
     </script>
 
     <script>
-      //进入页面，发请求渲染页面
+      //文章分类渲染，进入页面，发请求渲染页面
       //初始调用渲染
       loadData();
 
@@ -109,7 +109,7 @@
       }
 
 
-      //点击保存按钮，获取表单的值，调接口发请求
+      //文章分类新增，点击保存按钮，获取表单的值，调接口发请求
       $('.btn-submit').click(function() {
         var name = $('#recipient-name').val();
         var slug = $('#message-text').val();
@@ -129,6 +129,30 @@
               //清空文本框
               $('#recipient-name').val('');
               $('#message-text').val('');
+            }
+          }
+        })
+      })
+
+
+      //文章分类删除
+      //点击删除按钮，调接口,删除一条或重新渲染；分类列表是动态渲染的，事件委托给父级元素
+      $('tbody').on('click', '.btn-del', function() {
+        var id = $(this).attr('data-id');
+        console.log(id);
+        var that = $(this);
+        $.ajax({
+          url: BigNew.category_delete,
+          type: 'post',
+          data: {
+            id: id
+          },
+          success: function(res) {
+            if (res.code == 204) {
+              //移除tr结构
+              that.parents('tr').remove();
+              //重新请求渲染
+              //   loadData();
             }
           }
         })
