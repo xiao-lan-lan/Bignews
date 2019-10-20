@@ -87,6 +87,36 @@
       $('.user_pic').attr('src', res.data.userPic);
     }
   })
+
+
+  //预览图片
+  //文件域发生改变时，说明上传了文件，获取上传文件的url,给图片的src
+  $('#exampleInputFile').change(function() {
+    var url = URL.createObjectURL(this.files[0]);
+    $('.user_pic').prop('src', url);
+  })
+
+
+  //修改个人信息
+  //点击修改按钮，获取表单的值，调接口上传数据，同时刷新页面
+  $('.btn-edit').click(function(e) {
+    e.preventDefault();
+    var fd = new FormData($('form')[0]);
+    $.ajax({
+      url: BigNew.user_edit,
+      type: 'post',
+      data: fd,
+      //formdata一定要设置，内容类型和处理数据false
+      contentType: false,
+      processData: false,
+      success: function(res) {
+        console.log(res);
+        if (res.code == 200) {
+          window.parent.location.reload();
+        }
+      }
+    })
+  })
 </script>
 
 </html>
