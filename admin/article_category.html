@@ -176,6 +176,11 @@
         }
       })
 
+      //点击取消按钮，清空value值
+      $('.btn-default').click(function() {
+        $('#recipient-name').val('');
+        $('#message-text').val('');
+      })
 
       //修改：点击编辑按钮，调接口，重新调用渲染
       //  $('.btn-submit').click(function() {
