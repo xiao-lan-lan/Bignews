@@ -107,7 +107,7 @@
       success: function(res) {
         console.log(res);
         var option = template('list', res);
-        $('.form-control').html(option);
+        $('.category').html(option);
       }
     })
 
@@ -119,11 +119,27 @@
       },
       success: function(res) {
         console.log(res);
+
         //挨个设置
         $('#inputTitle').val(res.data.title);
         $('.article_cover').attr('src', res.data.cover);
         $('#testico').val(res.data.date);
+
+        //把option的value给select作为value，对应的option就被选中了？
+        $('.category').val(res.data.categoryId);
+
+        //富文本框渲染
+        setTimeout(function() {
+          //插件内部固定语法，设置文本域的内容
+          tinyMCE.activeEditor.setContent(res.data.content);
+        }, 500)
       }
+    })
+
+    //图片预览
+    $('#inputCover').change(function() {
+      var url = URL.createObjectURL(this.files[0]);
+      $('.article_cover').prop('src', url);
     })
   </script>
 
