@@ -124,6 +124,8 @@
     //   }
     // })
 
+
+
     //根据类别和状态搜索文章,点击搜索按钮时，获取按钮的value值，发请求渲染
     //文章类别传递的是id，不是中文，所以创建option的时候，把id给option的value值，下拉选中哪个option，Select的value就是当前option的value
     // var flag;
@@ -132,6 +134,8 @@
       e.preventDefault();
       loadList();
     })
+
+
 
     //封装请求渲染函数
     function loadList(page) {
@@ -158,8 +162,6 @@
           loadPagination(res.data.totalPage, page);
           // flag = false;
           //   }
-
-
         }
       })
     }
@@ -182,10 +184,33 @@
           if (page != startPage) {
             loadList(page);
           }
-
         }
       });
     }
+
+
+
+    //删除文章，点击删除按钮，调接口，把文章的id在初始渲染模板引擎时给编辑和删除按钮，重新加载或移除一条；事件委托
+    $('tbody').on('click', '.delete', function() {
+      var id = $(this).attr('id');
+      var that = $(this);
+      console.log(id);
+      $.ajax({
+        url: BigNew.article_delete,
+        type: 'post',
+        data: {
+          id: id
+        },
+        success: function(res) {
+          if (res.code == 204) {
+            alert(res.msg);
+            //移除一条，页面会一条一条减少，不足10个；强制刷新，才会一直保持10个
+            // that.parents('tr').remove();
+            window.location.reload();
+          }
+        }
+      })
+    })
   </script>
 
 </body>
