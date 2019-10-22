@@ -165,6 +165,8 @@
                 //隐藏模态框,重新渲染
                 $('#myModal').modal('hide');
                 loadData();
+                $('#recipient-name').val('');
+                $('#message-text').val('');
               } else {
                 alert(re.msg);
               }

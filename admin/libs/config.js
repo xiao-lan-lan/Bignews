@@ -10,6 +10,7 @@
       }, //绿色主题
       format: "YYYY-MM-DD",
       isinitVal: true,
+      zIndex: 999999,
     });
 
     //富文本框
